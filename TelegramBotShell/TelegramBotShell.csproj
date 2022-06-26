@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Telegram.Td">
+      <HintPath>$(SolutionDir)\Libraries\Telegram.Td.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	<Exec Command="xcopy &quot;$(SolutionDir)\Libraries\zlib1.dll&quot; &quot;$(TargetDir)&quot; /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)\Libraries\tdjson.dll&quot; &quot;$(TargetDir)&quot; /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)\Libraries\libssl-1_1-x64.dll&quot; &quot;$(TargetDir)&quot; /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)\Libraries\libcrypto-1_1-x64.dll&quot; &quot;$(TargetDir)&quot; /Y" />
+  </Target>
+
+</Project>
