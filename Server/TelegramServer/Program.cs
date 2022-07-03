@@ -1,6 +1,6 @@
-using TelegramBotServer.Logger.FileLogger;
+using TelegramServer.Logger.FileLogger;
 
-namespace TelegramBotServer
+namespace TelegramServer
 {
     public class Program
     {

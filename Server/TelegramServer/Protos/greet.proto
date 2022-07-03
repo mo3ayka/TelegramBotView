@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "TelegramBotServer";
+option csharp_namespace = "TelegramServer";
 
 package greet;
 

@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
 
-namespace TelegramBotServer.Logger.FileLogger
+namespace TelegramServer.Logger.FileLogger
 {
+    /// <summary>
+    /// Файловый поставщик лога
+    /// </summary>
     public class FileLoggerProvider : ILoggerProvider
     {
         /// <summary>

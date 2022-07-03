@@ -1,5 +1,8 @@
-﻿namespace TelegramBotServer.Logger.FileLogger
+﻿namespace TelegramServer.Logger.FileLogger
 {
+    /// <summary>
+    /// Конфигурация файлового логгера
+    /// </summary>
     public class FileLoggerConfig
     {
         /// <summary>

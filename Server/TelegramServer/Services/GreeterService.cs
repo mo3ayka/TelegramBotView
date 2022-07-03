@@ -1,7 +1,7 @@
 using Grpc.Core;
-using TelegramBotServer;
+using TelegramServer;
 
-namespace TelegramBotServer.Services
+namespace TelegramServer.Services
 {
     public class GreeterService : Greeter.GreeterBase
     {

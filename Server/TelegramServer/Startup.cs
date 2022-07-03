@@ -1,6 +1,6 @@
-﻿using TelegramBotServer.Services;
+﻿using TelegramServer.Services;
 
-namespace TelegramBotServer
+namespace TelegramServer
 {
     public class Startup
     {

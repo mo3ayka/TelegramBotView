@@ -1,15 +1,23 @@
 ﻿using System.Collections.Concurrent;
 
-namespace TelegramBotServer.Logger.FileLogger
+namespace TelegramServer.Logger.FileLogger
 {
+    /// <summary>
+    /// Файловый логгер
+    /// </summary>
     public class FileLogger : ILogger
     {
+        /// <summary>
+        /// Имя логгера
+        /// </summary>
         private readonly string _name;
 
         public FileLogger(string name)
         {
             _name = name;
         }
+
+        #region ILogger
 
         public IDisposable BeginScope<TState>(TState state)
         {
@@ -28,6 +36,10 @@ namespace TelegramBotServer.Logger.FileLogger
 
             _logQueue.Add((DateTime.Now.ToString(), logLevel, eventId.Id, _name, formatter(state, exception).Replace(Environment.NewLine, ""), exception?.Message));
         }
+
+        #endregion
+
+        #region Static Log Writer
 
         /// <summary>
         /// Очередь на запись в лог
@@ -61,5 +73,7 @@ namespace TelegramBotServer.Logger.FileLogger
                 File.AppendAllText(LogPath, content);
             }
         }
+
+        #endregion
     }
 }

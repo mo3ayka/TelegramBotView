@@ -1,10 +1,10 @@
 ﻿{
   "profiles": {
-    "TelegramBotServer": {
+    "TelegramServer": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
-      "applicationUrl": "http://localhost:5119;https://localhost:7119",
+      "applicationUrl": "http://127.0.0.1:5000;https://127.0.0.1:5001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
