@@ -21,6 +21,11 @@ namespace TelegramServer.Models
         /// </summary>
         private string _botToken;
 
+        /// <summary>
+        /// Обработчик обновлений бота
+        /// </summary>
+        private UpdateHandlerBot _updater;
+
         #endregion
 
         #region Protected Methods
@@ -30,6 +35,17 @@ namespace TelegramServer.Models
             var telegramPath = Path.Combine(configuration.GetValue<string>("TelegramPath"), _botToken.Replace(":", "_"));
             return Environment.ExpandEnvironmentVariables(telegramPath);
         }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Токен бота
+        /// </summary>
+        public string BotToken => _botToken;
+        
+        public override UpdateHandler Updater => _updater ??= new UpdateHandlerBot(this, Configuration);
 
         #endregion
     }

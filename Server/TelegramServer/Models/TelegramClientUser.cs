@@ -18,6 +18,11 @@
         /// </summary>
         private string _phoneNumber;
 
+        /// <summary>
+        /// Обработчик обновлений пользователя
+        /// </summary>
+        private UpdateHandlerUser _updater;
+
         #endregion
 
         #region Protected Methods
@@ -27,6 +32,12 @@
             var telegramPath = Path.Combine(configuration.GetValue<string>("TelegramPath"), _phoneNumber);
             return Environment.ExpandEnvironmentVariables(telegramPath);
         }
+
+        #endregion
+
+        #region Public Properties
+
+        public override UpdateHandler Updater => _updater ??= new UpdateHandlerUser(this, Configuration);
 
         #endregion
     }

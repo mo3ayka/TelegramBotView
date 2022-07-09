@@ -21,11 +21,12 @@ namespace TelegramServer.Models
             _logger = logger;
             _apiId = apiId;
             _apiHash = apiHash;
+            Configuration = configuration;
 
             Initialize(configuration);
         }
 
-        #region Protected Fields
+        #region Private Fields
 
         /// <summary>
         /// Идентификатор api telegram'a
@@ -48,14 +49,14 @@ namespace TelegramServer.Models
         private ILogger _logger;
 
         /// <summary>
-        /// Текущий td бот
-        /// </summary>
-        private Client _currentBotClient;
-
-        /// <summary>
         /// Хэндлер получения обновлений
         /// </summary>
         private ClientResultHandler _clientResultHandler;
+
+        /// <summary>
+        /// Директория хранения файлов клиента телеграмма
+        /// </summary>
+        private string _clientFilePath;
 
         #endregion
 
@@ -68,18 +69,18 @@ namespace TelegramServer.Models
         {
             Client.Execute(new SetLogVerbosityLevel(configuration.GetValue<int>("TelegramLogVerbosityLevel")));
 
-            var telegramPath = GetTelegramPath(configuration);
+            _clientFilePath = GetTelegramPath(configuration);
 
-            if (!Directory.Exists(telegramPath))
-                Directory.CreateDirectory(telegramPath);
+            if (!Directory.Exists(_clientFilePath))
+                Directory.CreateDirectory(_clientFilePath);
 
-            if (Client.Execute(new SetLogStream(new LogStreamFile(Path.Combine(telegramPath, "tdlib.log"), long.MaxValue, false))) is Error error)
+            if (Client.Execute(new SetLogStream(new LogStreamFile(Path.Combine(_clientFilePath, "tdlib.log"), long.MaxValue, false))) is Error error)
             {
                 throw new IOException(error.Message);
             }
 
             _clientResultHandler = new DefaultClientResultHandler(this);
-            _currentBotClient = Client.Create(_clientResultHandler);
+            _currentTdClient = Client.Create(_clientResultHandler);
         }
 
         #endregion
@@ -90,6 +91,29 @@ namespace TelegramServer.Models
         /// Получить путь логирования библиотеки телеграмма
         /// </summary>
         protected abstract string GetTelegramPath(IConfiguration configuration);
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Отправить API функцию от клиента
+        /// </summary>
+        /// <param name="function">Функция API Telegram'a</param>
+        /// <param name="handler">Обработчик, куда придет результат выполнения функции</param>
+        public void SendFunction(Function function, ClientResultHandler handler = null)
+        {
+            _currentTdClient.Send(function, handler ?? _clientResultHandler);
+        }
+
+        #endregion
+
+        #region Protected Properties
+
+        /// <summary>
+        /// Текущая конфигурация
+        /// </summary>
+        protected IConfiguration Configuration { get; }
 
         #endregion
 
@@ -109,6 +133,16 @@ namespace TelegramServer.Models
         /// Логгер
         /// </summary>
         public ILogger Logger => _logger;
+
+        /// <summary>
+        /// Обработчик обновлений клиента
+        /// </summary>
+        public abstract UpdateHandler Updater { get; }
+
+        /// <summary>
+        /// Директория хранения файлов клиента телеграмма
+        /// </summary>
+        public string ClientDirectory => _clientFilePath;
 
         #endregion
     }

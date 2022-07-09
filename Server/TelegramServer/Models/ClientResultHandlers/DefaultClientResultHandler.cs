@@ -14,7 +14,7 @@ namespace TelegramServer.Models.ClientResultHandlers
         }
 
         /// <summary>
-        /// Родительский бот
+        /// Родительский клиент
         /// </summary>
         private TelegramClient _parentClient;
 
@@ -29,6 +29,7 @@ namespace TelegramServer.Models.ClientResultHandlers
                     }
                 case Update update:
                     {
+                        _parentClient.Updater.ProcessUpdate(update);
                         break;
                     }
             }
