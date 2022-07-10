@@ -1,0 +1,17 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "TelegramServiceConnector";
+
+package main;
+
+service Main {
+  rpc Ping (PingRequest) returns (PingReply);
+}
+
+message PingRequest {
+  string name = 1;
+}
+
+message PingReply {
+  string message = 1;
+}

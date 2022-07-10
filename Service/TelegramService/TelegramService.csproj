@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>914eb207-cf11-4e02-9521-48dc2b141148</UserSecretsId>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\main.proto" GrpcServices="Server" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.47.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Telegram.Td">
+      <HintPath>..\..\Libraries\Telegram.Td.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="xcopy &quot;$(SolutionDir)\Libraries\zlib1.dll&quot; &quot;$(TargetDir)&quot; /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)\Libraries\tdjson.dll&quot; &quot;$(TargetDir)&quot; /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)\Libraries\libssl-1_1-x64.dll&quot; &quot;$(TargetDir)&quot; /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)\Libraries\libcrypto-1_1-x64.dll&quot; &quot;$(TargetDir)&quot; /Y" />
+	</Target>
+
+	<Target Name="PostPublish" AfterTargets="Publish">
+		<Exec Command="xcopy &quot;$(SolutionDir)\Libraries\zlib1.dll&quot; &quot;$(PublishDir)&quot; /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)\Libraries\tdjson.dll&quot; &quot;$(PublishDir)&quot; /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)\Libraries\libssl-1_1-x64.dll&quot; &quot;$(PublishDir)&quot; /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)\Libraries\libcrypto-1_1-x64.dll&quot; &quot;$(PublishDir)&quot; /Y" />
+	</Target>
+
+</Project>
